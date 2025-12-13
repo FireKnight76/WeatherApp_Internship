@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <h1>Weather Getter</h1>
     <p>For all information regarding weather in your favorite cities</p>
 
@@ -8,13 +9,26 @@
 
 <body>
     
-    <h1>Cities</h1>
+    <div>
 
-    <ul>
-        {% for x in myCities %}
-        <li>{{ x.cityName }}</li>
-        {% endfor %}
-    </ul>
+        <h3>Add cities</h3>
+        <form>
+            <input type="text" placeholder="Add your city">
+            <button class="btn btn-primary" value="submit">Add city</button>
+        </form>
+
+    </div>
+    
+    <div>
+        <h3>Cities</h3>
+
+        <ul>
+            {% for x in myCities %}
+            <li>{{ x.cityName }}</li>
+            {% endfor %}
+        </ul>
+
+    </div>
 
 </body>
 
