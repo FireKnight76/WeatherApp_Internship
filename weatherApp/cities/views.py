@@ -17,10 +17,7 @@ def cities(request):
         get_city_weather = requests.get(url.format(city)).json()
         
         weather_info.append(get_city_weather)
-    #     weather = {
-    #         'city': city,
-    #         'temp': get_city_weather['main']['temp']
-    #     }
+
 
     for city in weather_info:
         print(city)
@@ -29,7 +26,5 @@ def cities(request):
     context = {
         'weatherInfo': weather_info,
     }
+    
     return HttpResponse(template.render(context, request))
-
-
-   # return render(request, 'mainPage.html')
