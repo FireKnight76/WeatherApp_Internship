@@ -3,17 +3,26 @@ from django.http import HttpResponse
 from django.template import loader
 import requests
 from .models import City
+import datetime
 
 # Create your views here.
 def cities(request):
     #the link with my api key to access the weather api
-    url = 'http://api.weatherapi.com/v1/current.json?key=7773446b649e406e80d123250251312&q={}&aqi=no'
+    url = 'http://api.weatherapi.com/v1/current.json?key=7773446b649e406e80d123250251312&q={}'
+    
     weather_info = []
 
-    if request.method == "POST":
+    #method for adding cities
+    if request.method == "POST" and "add_city" in request.POST:
         city_name = request.POST.get("city")
         if city_name:
             City.objects.get_or_create(cityName=city_name)
+        return redirect("cities")
+    
+    #method for removing cities
+    if request.method == "POST" and "delete_city" in request.POST:
+        city_id = request.POST.get("city_id")
+        City.objects.filter(cityName=city_id).delete()
         return redirect("cities")
 
     myCities = City.objects.values_list('cityName',flat=True)
@@ -35,5 +44,7 @@ def cities(request):
     context = {
         'weather_info': weather_info,
     }
+
+    print(now)
 
     return HttpResponse(template.render(context, request))
