@@ -12,8 +12,9 @@
     <div>
 
         <h3>Add cities</h3>
-        <form>
-            <input type="text" placeholder="Add your city">
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="city" placeholder="Add your city">
             <button class="btn btn-primary" value="submit">Add city</button>
         </form>
 
