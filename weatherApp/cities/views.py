@@ -9,14 +9,19 @@ def cities(request):
     url = 'http://api.weatherapi.com/v1/current.json?key=7773446b649e406e80d123250251312&q={}&aqi=no'
     weather_info = []
 
-    myCities = City.objects.values('cityName')
+    myCities = City.objects.values_list('cityName',flat=True)
 
     for city in myCities:
 
-        
-        get_city_weather = requests.get(url.format(city)).json()
-        
-        weather_info.append(get_city_weather)
+        city_status = requests.get(url.format(city)).json()
+
+        situation   = {
+            'city': city,
+            'time': city_status['location']['localtime'],
+            'temp_c': city_status['current']['temp_c'],
+        }
+
+        weather_info.append(situation)
 
 
     for city in weather_info:
@@ -26,5 +31,5 @@ def cities(request):
     context = {
         'weatherInfo': weather_info,
     }
-    
+
     return HttpResponse(template.render(context, request))
