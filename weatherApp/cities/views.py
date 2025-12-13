@@ -10,8 +10,7 @@ def cities(request):
     #the link with my api key to access the weather api
     url = 'http://api.weatherapi.com/v1/current.json?key=7773446b649e406e80d123250251312&q={}'
     now = str(date.today())
-    weather_info = []
-    city = "almere"
+    city = "Almere"
     
 
     #method for adding cities
@@ -23,6 +22,7 @@ def cities(request):
     
     if request.method == "POST" and "view_city" in request.POST:
         city = request.POST.get('city_list')
+        # return redirect('cities')
 
     myCities = City.objects.values_list('cityName',flat=True)
 
@@ -31,17 +31,17 @@ def cities(request):
     #requests the data from the api, and inserts the desired locations
     city_status = requests.get(url.format(city)).json()
 
-    situation   = {
+    weather_info   = {
         'city': city,
         'time': city_status['location']['localtime'],
         'temp_c': city_status['current']['temp_c'],
     }
 
-    weather_info.append(situation)
 
     template = loader.get_template('mainPage.html')
     context = {
         'myCities': myCities,
+        'weather_info': weather_info,
     }
 
     print(weather_info)
