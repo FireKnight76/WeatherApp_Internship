@@ -21,12 +21,6 @@ def cities(request):
             City.objects.get_or_create(cityName=city_name)
         return redirect("cities")
     
-    # #method for removing cities
-    # if request.method == "POST" and "delete_city" in request.POST:
-    #     city_id = request.POST.get("city_id")
-    #     City.objects.filter(cityName=city_id).delete()
-    #     return redirect("cities")
-    
     if request.method == "POST" and "view_city" in request.POST:
         city = request.POST.get('city_list')
 
