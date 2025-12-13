@@ -3,13 +3,13 @@ from django.http import HttpResponse
 from django.template import loader
 import requests
 from .models import City
-import datetime
+from datetime import date
 
 # Create your views here.
 def cities(request):
     #the link with my api key to access the weather api
     url = 'http://api.weatherapi.com/v1/current.json?key=7773446b649e406e80d123250251312&q={}'
-    
+    now = str(date.today())
     weather_info = []
 
     #method for adding cities
