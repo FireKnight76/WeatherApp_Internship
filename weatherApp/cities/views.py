@@ -11,6 +11,8 @@ def cities(request):
     url = 'http://api.weatherapi.com/v1/current.json?key=7773446b649e406e80d123250251312&q={}'
     now = str(date.today())
     weather_info = []
+    city = "almere"
+    
 
     #method for adding cities
     if request.method == "POST" and "add_city" in request.POST:
@@ -19,32 +21,35 @@ def cities(request):
             City.objects.get_or_create(cityName=city_name)
         return redirect("cities")
     
-    #method for removing cities
-    if request.method == "POST" and "delete_city" in request.POST:
-        city_id = request.POST.get("city_id")
-        City.objects.filter(cityName=city_id).delete()
-        return redirect("cities")
+    # #method for removing cities
+    # if request.method == "POST" and "delete_city" in request.POST:
+    #     city_id = request.POST.get("city_id")
+    #     City.objects.filter(cityName=city_id).delete()
+    #     return redirect("cities")
+    
+    if request.method == "POST" and "view_city" in request.POST:
+        city = request.POST.get('city_list')
 
     myCities = City.objects.values_list('cityName',flat=True)
 
-    for city in myCities:
+
         
-        #requests the data from the api, and inserts the desired locations
-        city_status = requests.get(url.format(city)).json()
+    #requests the data from the api, and inserts the desired locations
+    city_status = requests.get(url.format(city)).json()
 
-        situation   = {
-            'city': city,
-            'time': city_status['location']['localtime'],
-            'temp_c': city_status['current']['temp_c'],
-        }
+    situation   = {
+        'city': city,
+        'time': city_status['location']['localtime'],
+        'temp_c': city_status['current']['temp_c'],
+    }
 
-        weather_info.append(situation)
+    weather_info.append(situation)
 
     template = loader.get_template('mainPage.html')
     context = {
-        'weather_info': weather_info,
+        'myCities': myCities,
     }
 
-    print(now)
+    print(weather_info)
 
     return HttpResponse(template.render(context, request))
