@@ -6,5 +6,16 @@
     <p>For all information regarding weather in your favorite cities</p>
 
 </body>
+<body>
+    
+    <h1>Cities</h1>
+
+    <ul>
+        {% for x in myCities %}
+        <li>{{ x.cityName }}</li>
+        {% endfor %}
+    </ul>
+
+</body>
 
 </html>
