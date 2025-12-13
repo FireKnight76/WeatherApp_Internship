@@ -24,8 +24,15 @@
         <h3>Cities</h3>
 
         <ul>
-            {% for x in weather_info %}
-            <li>{{ x }}</li>
+            {% for city in weather_info %}
+            <li>
+                <strong>{{city.city}}</strong><br>
+                Time: {{city.time}} <br>
+                Temperature: {{city.temp_c}} C
+
+            </li>
+            {%empty%}
+            <li>No cities found.</li>
             {% endfor %}
         </ul>
 

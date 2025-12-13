@@ -24,12 +24,13 @@ def cities(request):
         weather_info.append(situation)
 
 
-    for city in weather_info:
-        print(city)
+    # for city in weather_info:
+    #     print(city)
 
     template = loader.get_template('mainPage.html')
     context = {
-        'weatherInfo': weather_info,
+        'weather_info': weather_info,
     }
 
     return HttpResponse(template.render(context, request))
+    #return render(request, 'mainPage.html', context)
