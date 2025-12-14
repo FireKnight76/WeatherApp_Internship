@@ -9,7 +9,7 @@ from datetime import date
 def cities(request):
     #the link with my api key to access the weather api
     url = 'http://api.weatherapi.com/v1/current.json?key=7773446b649e406e80d123250251312&q={}'
-
+    city = "Almere"
 
     #method for adding cities
     if request.method == "POST" and "add_city" in request.POST:
@@ -20,7 +20,9 @@ def cities(request):
     
 
     if request.method == "POST":
-        city = request.POST.get('city_list')
+        selected_city = request.POST.get('city_list')
+        if selected_city:
+            city = selected_city
 
 
     myCities = City.objects.values_list('cityName',flat=True)
