@@ -34,8 +34,10 @@
                         <li>No cities found.</li>
                         {% endfor %}
                     </select>
+                    <button class="btn-primary" value="submit" name="view_city">Select this city</button> <br>
 
-                    <button class="btn-primary" value="submit" name="view_city">Select this city</button>
+                    <input type="date" name="city_date">
+                    <button class="btn-primary" value="submit" name="view_date">Change city date</button>
                 </form>
 
     </div>
@@ -43,8 +45,20 @@
     <div class="col-8 w-auto m-4 pe-4 d-flex flew-row border border-dark rounded">
         <h3>Weather status</h3>
         <h4>{{ weather_info.city }}</h4>
-        <p>{{weather_info.temp_c}} °C</p>
-        <p>{{weather_info.time}}</p>
+
+        {% if weather_info.mode == "current" %}
+
+            <p>{{ weather_info.temp_c }} °C</p>
+            <p>{{ weather_info.time }}</p>
+
+        {% elif weather_info.mode == "history" %}
+
+            <p>Date: {{ weather_info.date }}</p>
+            <p>Max: {{ weather_info.maxtemp_c }} °C</p>
+            <p>Min: {{ weather_info.mintemp_c }} °C</p>
+            
+        {% endif %}
+
     </div>
 
 </body>
