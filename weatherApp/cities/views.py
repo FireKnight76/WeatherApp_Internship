@@ -31,20 +31,35 @@ def cities(request):
     if request.method == "POST" and "view_date" in request.POST:
         #saves the selected date as a string to put into the url
         weather_date = str(request.POST.get('city_date'))
-        #the url for historical data that overwrites the original url to get the desired data
-        url = 'http://api.weatherapi.com/v1/history.json?key=7773446b649e406e80d123250251312&q={}&dt={}'
-        
-        #requests the data from the api, and inserts the desired locations
-        city_status = requests.get(url.format(city, weather_date)).json()
 
-        #the created object to fit with the returned data regarding the city's past weather conditions
-        weather_info   = {
-            'city': city_status['location']['name'],
-            'date': city_status['forecast']['forecastday'][0]['date'],
-            'maxtemp_c': city_status['forecast']['forecastday'][0]['day']['maxtemp_c'],
-            'mintemp_c': city_status['forecast']['forecastday'][0]['day']['mintemp_c'],
-            'mode': 'history'
-        }
+        if weather_date:
+
+            #the url for historical data that overwrites the original url to get the desired data
+            url = 'http://api.weatherapi.com/v1/history.json?key=7773446b649e406e80d123250251312&q={}&dt={}'
+            
+            #requests the data from the api, and inserts the desired locations
+            city_status = requests.get(url.format(city, weather_date)).json()
+
+            #the created object to fit with the returned data regarding the city's past weather conditions
+            weather_info   = {
+                'city': city_status['location']['name'],
+                'date': city_status['forecast']['forecastday'][0]['date'],
+                'maxtemp_c': city_status['forecast']['forecastday'][0]['day']['maxtemp_c'],
+                'mintemp_c': city_status['forecast']['forecastday'][0]['day']['mintemp_c'],
+                'mode': 'history'
+            }
+
+        else:
+            city_status = requests.get(url.format(city)).json()
+        
+            #the created object to fit with the returned data regarding the city's current weather conditions
+            weather_info   = {
+                'city': city_status['location']['name'],
+                'time': city_status['location']['localtime'],
+                'temp_c': city_status['current']['temp_c'],
+                'mode': 'current'
+            }
+
     else:
         city_status = requests.get(url.format(city)).json()
         
