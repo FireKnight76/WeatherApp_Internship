@@ -32,6 +32,7 @@ def cities(request):
         #saves the selected date as a string to put into the url
         weather_date = str(request.POST.get('city_date'))
 
+        #checks if weather_date actually has a value
         if weather_date:
 
             #the url for historical data that overwrites the original url to get the desired data
@@ -48,7 +49,7 @@ def cities(request):
                 'mintemp_c': city_status['forecast']['forecastday'][0]['day']['mintemp_c'],
                 'mode': 'history'
             }
-
+        #if weather_date has no value this code gets executed
         else:
             city_status = requests.get(url.format(city)).json()
         
