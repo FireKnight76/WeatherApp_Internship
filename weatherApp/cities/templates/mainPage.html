@@ -27,7 +27,7 @@
                     {% csrf_token %}
                     <select name="city_list" id="city_list">
                         
-                        {% for city in myCities %}
+                        {% for city in my_cities %}
                         <option value="{{city}}">{{city}}</option>
                         
                         {%empty%}
